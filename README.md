@@ -43,7 +43,7 @@ CREATE INDEX gin_idx_users_user_email ON users_user USING GIN (UPPER(email) gin_
 CREATE INDEX IF NOT EXISTS idx_users_user_last_name ON users_user USING btree (last_name ASC);
 ```
 
-В итоге - грусть и печаль, вот что получается в EXPAIN ALANYZE:
+В итоге - грусть и печаль, вот что получается в EXPAIN ANALYZE:
 ```
 Sort  (cost=359142.14..359708.76 rows=226648 width=31) (actual time=6839.573..6840.758 rows=27219 loops=1)
   Sort Key: last_name
@@ -82,7 +82,7 @@ JIT:
 Execution Time: 6842.334 ms
 ```
 
-Вроде как идет сканирование по индексам, то основное время тратится на Bitmap Heap Scan (Index Recheck). И оно очень сильно зависит от количества найденных результатов. Тесты на гитлабе, естественно, не проходятся.
+Вроде как идет сканирование по индексам, но основное время тратится на Bitmap Heap Scan (Index Recheck). И оно очень сильно зависит от количества найденных результатов. Тесты на гитлабе, естественно, не проходятся.
 
 Непонятно как быть дальше, и где я ошибся, и какие еще есть варианты...
 Нужен какой нибудь намек или идея, как все исправить =)
